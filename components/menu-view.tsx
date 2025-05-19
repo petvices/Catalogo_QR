@@ -21,6 +21,7 @@ import {
 import { Badge } from "@/components/ui/badge"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
+import { useIsOpen } from "@/hooks/use-is-open"
 
 
 type Menu = Database["public"]["Tables"]["menus"]["Row"]
@@ -42,7 +43,7 @@ interface MenuViewProps {
 }
 
 // Componente para menús con carrito habilitado
-function MenuViewWithCart({ menu, categories, productsMap, isOpen }: MenuViewProps) {
+function MenuViewWithCart({ menu, categories, productsMap }: MenuViewProps) {
   const [showScrollTop, setShowScrollTop] = useState(false)
   const [activeCategory, setActiveCategory] = useState<string | null>(categories.length > 0 ? categories[0].id : null)
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null)
@@ -53,6 +54,8 @@ function MenuViewWithCart({ menu, categories, productsMap, isOpen }: MenuViewPro
 
   const { toast } = useToast()
   const { addItem } = useCart()
+
+  const isOpen = useIsOpen(menu.business_hours as BusinessHours)
 
   useEffect(() => {
     const handleScroll = () => {
