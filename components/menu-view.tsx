@@ -330,7 +330,7 @@ function MenuViewWithCart({ menu, categories, productsMap }: MenuViewProps) {
       <div className="relative -mt-16 mb-4 flex justify-center">
         <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-white bg-white shadow-md">
           <img
-            src={menu.restaurant_image_url || "/placeholder.svg?height=128&width=128"}
+            src={menu.logo_url || "/placeholder.svg?height=128&width=128"}
             alt={menu.name}
             className="w-full h-full object-cover"
           />
@@ -876,7 +876,7 @@ function MenuViewWithoutCart({ menu, categories, productsMap, isOpen }: MenuView
       <div className="relative -mt-16 mb-4 flex justify-center">
         <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-white bg-white shadow-md">
           <img
-            src={menu.restaurant_image_url || "/placeholder.svg?height=128&width=128"}
+            src={menu.logo_url || "/placeholder.svg?height=128&width=128"}
             alt={menu.name}
             className="w-full h-full object-cover"
           />
