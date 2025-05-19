@@ -40,7 +40,7 @@ export default function MenuAppearance({ menu, updateMenu, isPremium }: MenuAppe
   const [logoFile, setLogoFile] = useState<File | null>(null)
   const [bannerFile, setBannerFile] = useState<File | null>(null)
   const [logoPreview, setLogoPreview] = useState<string | null>(menu.logo_url || null)
-  const [bannerPreview, setBannerPreview] = useState<string | null>(menu.banner_url || null)
+  const [bannerPreview, setBannerPreview] = useState<string | null>(banner_image_url || null)
   const [bannerColor, setBannerColor] = useState<string>(menu.banner_color || "#3b82f6")
   const [uploadingLogo, setUploadingLogo] = useState(false)
   const [uploadingBanner, setUploadingBanner] = useState(false)
@@ -175,7 +175,7 @@ export default function MenuAppearance({ menu, updateMenu, isPremium }: MenuAppe
       setUploadingBanner(true)
       const path = `banners/${menu.id}/${Date.now()}-${bannerFile.name}`
       const url = await uploadImage(bannerFile, path)
-      await updateMenu({ banner_url: url })
+      await updateMenu({ banner_image_url: url })
       toast({
         title: "Banner actualizado",
         description: "El banner ha sido actualizado correctamente.",
