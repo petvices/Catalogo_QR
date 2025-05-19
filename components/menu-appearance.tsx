@@ -175,7 +175,7 @@ export default function MenuAppearance({ menu, updateMenu, isPremium }: MenuAppe
       setUploadingBanner(true)
       const path = `banners/${menu.id}/${Date.now()}-${bannerFile.name}`
       const url = await uploadImage(bannerFile, path)
-      await updateMenu({ banner_image_url: url })
+      await updateMenu({ banner_url: url })
       toast({
         title: "Banner actualizado",
         description: "El banner ha sido actualizado correctamente.",
