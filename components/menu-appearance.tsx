@@ -110,14 +110,14 @@ export default function MenuAppearance({ menu, updateMenu, isPremium }: MenuAppe
   }
 
   const uploadImage = async (file: File, path: string) => {
-    const { data, error } = await supabase.storage.from("menu-images").upload(path, file, {
+    const { data, error } = await supabase.storage.from("product-images").upload(path, file, {
       cacheControl: "3600",
       upsert: true,
     })
 
     if (error) throw error
 
-    const { data: urlData } = supabase.storage.from("menu-images").getPublicUrl(path)
+    const { data: urlData } = supabase.storage.from("product-images").getPublicUrl(path)
     return urlData.publicUrl
   }
 
