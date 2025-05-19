@@ -320,7 +320,7 @@ function MenuViewWithCart({ menu, categories, productsMap }: MenuViewProps) {
         className="w-full h-40 relative"
         style={{
           backgroundColor: menu.banner_color || "#FF0000",
-          backgroundImage: menu.banner_url ? `url(${menu.banner_url})` : "none",
+          backgroundImage: menu.banner_image_url ? `url(${menu.banner_image_url})` : "none",
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
@@ -866,7 +866,7 @@ function MenuViewWithoutCart({ menu, categories, productsMap, isOpen }: MenuView
         className="w-full h-40 relative"
         style={{
           backgroundColor: menu.banner_color || "#FF0000",
-          backgroundImage: menu.banner_url ? `url(${menu.banner_url})` : "none",
+          backgroundImage: menu.banner_image_url ? `url(${menu.banner_image_url})` : "none",
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
