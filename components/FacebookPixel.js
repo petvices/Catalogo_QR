@@ -1,4 +1,3 @@
-// components/FacebookPixel.js
 import Script from 'next/script'
 
 const FacebookPixel = () => {
@@ -17,7 +16,7 @@ const FacebookPixel = () => {
             t.src=v;s=b.getElementsByTagName(e)[0];
             s.parentNode.insertBefore(t,s)}(window, document,'script',
             'https://connect.facebook.net/en_US/fbevents.js');
-            fbq('init', '736085119064741');
+            fbq('init', '883220427263702');
             fbq('track', 'PageView');
           `,
         }}
@@ -27,7 +26,7 @@ const FacebookPixel = () => {
           height="1"
           width="1"
           style={{ display: 'none' }}
-          src="https://www.facebook.com/tr?id=736085119064741&ev=PageView&noscript=1"
+          src="https://www.facebook.com/tr?id=883220427263702&ev=PageView&noscript=1"
         />
       </noscript>
     </>
