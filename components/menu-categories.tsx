@@ -63,6 +63,7 @@ export default function MenuCategories({ menuId, isPremium }: MenuCategoriesProp
   const [productAvailable, setProductAvailable] = useState(true)
   const [productImage, setProductImage] = useState<string | null>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const [productDiscount, setProductDiscount] = useState("")
 
   useEffect(() => {
     fetchCategories()
@@ -350,6 +351,7 @@ export default function MenuCategories({ menuId, isPremium }: MenuCategoriesProp
             name: productName,
             description: productDescription,
             price,
+            discount_percentage: productDiscount ? parseInt(productDiscount) : null,
             is_available: productAvailable,
           })
           .eq("id", editingProduct.id)
@@ -365,6 +367,7 @@ export default function MenuCategories({ menuId, isPremium }: MenuCategoriesProp
                 name: productName,
                 description: productDescription,
                 price,
+                discount_percentage: productDiscount ? parseInt(productDiscount) : null,
                 is_available: productAvailable,
               }
             : p,
@@ -384,6 +387,7 @@ export default function MenuCategories({ menuId, isPremium }: MenuCategoriesProp
             name: productName,
             description: productDescription,
             price,
+            discount_percentage: productDiscount ? parseInt(productDiscount) : null,
             is_available: productAvailable,
             order: newOrder,
           })
@@ -559,6 +563,7 @@ export default function MenuCategories({ menuId, isPremium }: MenuCategoriesProp
       setProductName(product.name)
       setProductDescription(product.description || "")
       setProductPrice(product.price.toString())
+      setProductDiscount(product.discount_percentage?.toString() || "")
       setProductAvailable(product.is_available)
       setProductImage(product.image_url || null)
     } else {
@@ -785,7 +790,7 @@ export default function MenuCategories({ menuId, isPremium }: MenuCategoriesProp
                         Agregar producto
                       </Button>
                     </DialogTrigger>
-                    <DialogContent>
+                    <DialogContent className="max-h-[90vh] overflow-y-auto">
                       <DialogHeader>
                         <DialogTitle>{editingProduct ? "Editar producto" : "Agregar producto"}</DialogTitle>
                         <DialogDescription>
@@ -830,6 +835,19 @@ export default function MenuCategories({ menuId, isPremium }: MenuCategoriesProp
                             required
                             disabled={savingProduct}
                           />
+                        <div className="space-y-2">
+                          <Label htmlFor="productDiscount">Descuento (%)</Label>
+                          <Input
+                            id="productDiscount"
+                            type="number"
+                            min="0"
+                            max="100"
+                            value={productDiscount}
+                            onChange={(e) => setProductDiscount(e.target.value)}
+                            placeholder="Ej: 10"
+                            disabled={savingProduct}
+                          />
+                        </div>
                         </div>
                         <div className="flex items-center space-x-2">
                           <Switch
