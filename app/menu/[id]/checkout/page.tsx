@@ -19,6 +19,9 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import Link from "next/link"
 import type { Database } from "@/types/supabase"
 
+type Product = Database["public"]["Tables"]["products"]["Row"]
+
+
 // Componente interno que usa useCart
 function CheckoutContent({ menuId }: { menuId: string }) {
   const router = useRouter()
@@ -39,6 +42,16 @@ function CheckoutContent({ menuId }: { menuId: string }) {
   const [loadingMenu, setLoadingMenu] = useState(true)
 
   const fileInputRef = useRef<HTMLInputElement>(null)
+
+  const getDiscountedPrice = (product: Product): number => {
+  const discount = product.discount_percentage || 0
+  return product.price * (1 - discount / 100)
+  }
+
+  const discountedTotal = items.reduce((total, item) => {
+  return total + getDiscountedPrice(item.product) * item.quantity
+  }, 0)
+
 
   useEffect(() => {
     const fetchMenu = async () => {
@@ -156,7 +169,7 @@ function CheckoutContent({ menuId }: { menuId: string }) {
           customer_name: customerName,
           customer_phone: customerPhone || null,
           customer_email: customerEmail || null,
-          total_amount: totalAmount,
+          total_amount: discountedTotal,
           status: "pending",
           payment_method: paymentMethod,
           payment_proof_url: paymentProofUrl,
@@ -234,27 +247,37 @@ function CheckoutContent({ menuId }: { menuId: string }) {
               <CardDescription>Revisa los productos de tu pedido</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
-              {items.map((item) => (
-                <div key={item.product.id} className="flex justify-between">
-                  <div>
-                    <p className="font-medium">
-                      {item.quantity} x {item.product.name}
-                    </p>
-                    {item.notes && <p className="text-xs text-muted-foreground italic">Nota: {item.notes}</p>}
+              {items.map((item) => {
+                const discountedPrice = getDiscountedPrice(item.product)
+                const lineTotal = discountedPrice * item.quantity
+
+                return (
+                  <div key={item.product.id} className="flex justify-between">
+                    <div>
+                      <p className="font-medium">
+                        {item.quantity} x {item.product.name}
+                      </p>
+                      {item.product.discount_percentage && (
+                        <p className="text-xs text-green-600">
+                          {item.product.discount_percentage}% de descuento
+                        </p>
+                      )}
+                      {item.notes && <p className="text-xs text-muted-foreground italic">Nota: {item.notes}</p>}
+                    </div>
+                    <p className="font-medium">${lineTotal.toFixed(2)}</p>
                   </div>
-                  <p className="font-medium">${(item.product.price * item.quantity).toFixed(2)}</p>
-                </div>
-              ))}
+                )
+              })}
               <Separator />
               <div className="flex justify-between font-bold">
                 <span>Total:</span>
-                <span>${totalAmount.toFixed(2)}</span>
+                <span>${discountedTotal.toFixed(2)}</span>
               </div>
 
               {menu?.dollar_exchange_rate && menu.dollar_exchange_rate > 0 && (
                 <div className="flex justify-between text-sm text-muted-foreground">
                   <span>Total en Bs.s:</span>
-                  <span>Bs.s {(totalAmount * menu.dollar_exchange_rate).toFixed(2)}</span>
+                  <span>Bs.s {(discountedTotal * menu.dollar_exchange_rate).toFixed(2)}</span>
                 </div>
               )}
             </CardContent>
