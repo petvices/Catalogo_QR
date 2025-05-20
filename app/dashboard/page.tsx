@@ -8,6 +8,7 @@ import { useToast } from "@/components/ui/use-toast"
 import { useSupabase } from "@/components/supabase-provider"
 import { PlusCircle, QrCode, ExternalLink, Crown } from "lucide-react"
 import type { Database } from "@/types/supabase"
+import { OnboardingTutorial } from "@/components/onboarding/onboarding-tutorial"
 
 type Menu = Database["public"]["Tables"]["menus"]["Row"]
 type Profile = Database["public"]["Tables"]["profiles"]["Row"]
@@ -16,52 +17,80 @@ export default function DashboardPage() {
   const [menus, setMenus] = useState<Menu[]>([])
   const [profile, setProfile] = useState<Profile | null>(null)
   const [loading, setLoading] = useState(true)
+  const [showOnboarding, setShowOnboarding] = useState(false)
   const { supabase, user } = useSupabase()
   const { toast } = useToast()
 
-  useEffect(() => {
-    const fetchData = async () => {
-      if (!user) return
+  const fetchData = async () => {
+    if (!user) return
 
-      try {
-        // Fetch user profile
-        const { data: profileData, error: profileError } = await supabase
-          .from("profiles")
-          .select("*")
-          .eq("id", user.id)
-          .single()
+    try {
+      // Fetch user profile
+      const { data: profileData, error: profileError } = await supabase
+        .from("profiles")
+        .select("*")
+        .eq("id", user.id)
+        .single()
 
-        if (profileError) throw profileError
-        setProfile(profileData)
+      if (profileError) throw profileError
+      setProfile(profileData)
 
-        // Fetch user menus
-        const { data: menusData, error: menusError } = await supabase
-          .from("menus")
-          .select("*")
-          .eq("user_id", user.id)
-          .order("created_at", { ascending: false })
-
-        if (menusError) throw menusError
-        setMenus(menusData || [])
-      } catch (error: any) {
-        toast({
-          title: "Error",
-          description: "No se pudieron cargar los datos. Por favor, intenta de nuevo.",
-          variant: "destructive",
-        })
-        console.error(error)
-      } finally {
+      // Check if onboarding needs to be shown
+      if (!profileData.onboarding_completed) {
+        setShowOnboarding(true)
         setLoading(false)
+        return
       }
-    }
 
+      // Fetch user menus
+      const { data: menusData, error: menusError } = await supabase
+        .from("menus")
+        .select("*")
+        .eq("user_id", user.id)
+        .order("created_at", { ascending: false })
+
+      if (menusError) throw menusError
+      setMenus(menusData || [])
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: "No se pudieron cargar los datos. Por favor, intenta de nuevo.",
+        variant: "destructive",
+      })
+      console.error(error)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  useEffect(() => {
     fetchData()
   }, [supabase, user, toast])
+
+  const handleOnboardingComplete = () => {
+    setShowOnboarding(false)
+    // Recargar los datos después de completar el onboarding
+    fetchData()
+  }
 
   const canCreateMenu = () => {
     if (!profile) return false
     if (profile.is_premium) return menus.length < 3
     return menus.length < 1
+  }
+
+  // Mostrar onboarding si es necesario
+  if (showOnboarding) {
+    return <OnboardingTutorial onComplete={handleOnboardingComplete} />
+  }
+
+  // Mostrar loading state
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+      </div>
+    )
   }
 
   return (
@@ -85,12 +114,11 @@ export default function DashboardPage() {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total de menús</CardTitle>
-            <Menu className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{menus.length}</div>
             <p className="text-xs text-muted-foreground">
-              {profile?.is_premium ? "Límite: 3 menús" : "Límite: 1 menú"}
+              {profile?.is_premium ? "Límite: 3 menús" : "Límite: 1 menús"}
             </p>
           </CardContent>
         </Card>
