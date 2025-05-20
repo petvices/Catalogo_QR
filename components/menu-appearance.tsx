@@ -62,6 +62,13 @@ export default function MenuAppearance({ menu, updateMenu, isPremium }: MenuAppe
   const { toast } = useToast()
   const { startLoading, stopLoading } = useLoading()
 
+  const normalizeFileName = (filename: string): string => {
+  return filename
+    .toLowerCase()
+    .replace(/\s+/g, "-")         // reemplaza espacios por guiones
+    .replace(/[^a-z0-9.-]/g, "")  // elimina caracteres no válidos
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
@@ -96,18 +103,40 @@ export default function MenuAppearance({ menu, updateMenu, isPremium }: MenuAppe
   const handleLogoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0]
+
+      if (!file.type.startsWith("image/")) {
+        toast({
+          title: "Archivo inválido",
+          description: "Solo se permiten archivos de imagen.",
+          variant: "destructive",
+        })
+        return
+      }
+
       setLogoFile(file)
       setLogoPreview(URL.createObjectURL(file))
     }
   }
 
-  const handleBannerChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+
+    const handleBannerChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0]
+    
+      if (!file.type.startsWith("image/")) {
+        toast({
+          title: "Archivo inválido",
+          description: "Solo se permiten archivos de imagen.",
+          variant: "destructive",
+        })
+        return
+      }
+    
       setBannerFile(file)
       setBannerPreview(URL.createObjectURL(file))
     }
   }
+  
 
   const uploadImage = async (file: File, path: string) => {
     const { data, error } = await supabase.storage.from("product-images").upload(path, file, {
@@ -149,7 +178,8 @@ export default function MenuAppearance({ menu, updateMenu, isPremium }: MenuAppe
 
     try {
       setUploadingLogo(true)
-      const path = `logos/${menu.id}/${Date.now()}-${logoFile.name}`
+      const sanitizedName = normalizeFileName(logoFile.name)
+      const path = `logos/${menu.id}/${Date.now()}-${sanitizedName}`
       const url = await uploadImage(logoFile, path)
       await updateMenu({ logo_url: url })
       toast({
@@ -173,7 +203,8 @@ export default function MenuAppearance({ menu, updateMenu, isPremium }: MenuAppe
 
     try {
       setUploadingBanner(true)
-      const path = `banners/${menu.id}/${Date.now()}-${bannerFile.name}`
+      const sanitizedName = normalizeFileName(bannerFile.name)
+      const path = `banners/${menu.id}/${Date.now()}-${sanitizedName}`
       const url = await uploadImage(bannerFile, path)
       await updateMenu({ banner_image_url: url })
       toast({
