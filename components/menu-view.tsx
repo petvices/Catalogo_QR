@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import type { Database } from "@/types/supabase"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-import { Clock, ChevronUp, Plus, MenuIcon, MapPin } from "lucide-react"
+import { Clock, ChevronUp, Plus, MenuIcon, MapPin, Flame } from "lucide-react"
 import { CartProvider, useCart } from "./cart/cart-provider"
 import { Cart } from "./cart/cart"
 import { useToast } from "@/components/ui/use-toast"
@@ -22,6 +22,7 @@ import { Badge } from "@/components/ui/badge"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import { useIsOpen } from "@/hooks/use-is-open"
+
 
 
 type Menu = Database["public"]["Tables"]["menus"]["Row"]
@@ -432,7 +433,7 @@ function MenuViewWithCart({ menu, categories, productsMap }: MenuViewProps) {
                     </div>
 
                     {discountPercentage > 0 && (
-                      <Badge className="absolute top-2 right-2 bg-red-500">-{discountPercentage}%</Badge>
+                      <Badge className="absolute top-2 right-2 bg-red-500 flex items-center gap-1"><Flame className="h-4 w-4" />{discountPercentage}%</Badge>
                     )}
                   </div>
 
