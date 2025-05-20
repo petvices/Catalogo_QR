@@ -3,10 +3,12 @@ import { Button } from "@/components/ui/button"
 import { QrCode, Utensils, Clock, Palette, Smartphone, ArrowRight } from "lucide-react"
 import Navbar from "@/components/navbar"
 import Footer from "@/components/footer"
+import FacebookPixel from '@/components/FacebookPixel'
 
 export default function Home() {
   return (
     <div className="flex min-h-screen flex-col">
+      <FacebookPixel />
       <Navbar />
 
       <main className="flex-1">
