@@ -20,6 +20,8 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 import type { Database } from "@/types/supabase"
 
 type Menu = Database["public"]["Tables"]["menus"]["Row"]
+type Product = Database["public"]["Tables"]["products"]["Row"]
+
 
 interface CartView {
   menu: Menu;
@@ -37,6 +39,17 @@ export function Cart({ menuId, menu }: CartView) {
     setOpen(false)
     router.push(`/menu/${menuId}/checkout`)
   }
+
+  const getDiscountedPrice = (product: Product): number => {
+  const discount = product.discount_percentage || 0
+  return product.price * (1 - discount / 100)
+ }
+
+ const discountedTotal = items.reduce((total, item) => {
+  const discounted = getDiscountedPrice(item.product) * item.quantity
+  return total + discounted
+}, 0)
+
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
@@ -80,7 +93,20 @@ export function Cart({ menuId, menu }: CartView) {
                     <div className="flex justify-between items-start">
                       <div className="flex-1">
                         <h4 className="font-medium">{item.product.name}</h4>
-                        <p className="text-sm text-muted-foreground">${item.product.price.toFixed(2)}</p>
+                        {item.product.discount_percentage ? (
+                          <div className="text-sm">
+                            <span className="line-through text-muted-foreground mr-1">
+                              ${item.product.price.toFixed(2)}
+                            </span>
+                            <span className="text-green-600 font-medium">
+                              ${getDiscountedPrice(item.product).toFixed(2)}
+                            </span>
+                          </div>
+                        ) : (
+                          <p className="text-sm text-muted-foreground">
+                            ${item.product.price.toFixed(2)}
+                          </p>
+                        )}
                       </div>
                       <Button
                         variant="ghost"
@@ -112,7 +138,9 @@ export function Cart({ menuId, menu }: CartView) {
                           <Plus className="h-3 w-3" />
                         </Button>
                       </div>
-                      <span className="font-medium">${(item.product.price * item.quantity).toFixed(2)}</span>
+                      <span className="font-medium">
+                        ${ (getDiscountedPrice(item.product) * item.quantity).toFixed(2) }
+                      </span>                    
                     </div>
 
                     <div className="mt-2">
@@ -133,11 +161,11 @@ export function Cart({ menuId, menu }: CartView) {
               <div className="py-4">
                 <div className="flex justify-between mb-2">
                   <span className="text-muted-foreground">Subtotal</span>
-                  <span>${totalAmount.toFixed(2)}</span>
+                  <span>${discountedTotal.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between font-medium text-lg">
                   <span>Total</span>
-                  <span>${totalAmount.toFixed(2)}</span>
+                  <span>${discountedTotal.toFixed(2)}</span>
                 </div>
               </div>
 
