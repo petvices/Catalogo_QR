@@ -9,6 +9,7 @@ import { useSupabase } from "@/components/supabase-provider"
 import { PlusCircle, QrCode, ExternalLink, Crown } from "lucide-react"
 import type { Database } from "@/types/supabase"
 import { OnboardingTutorial } from "@/components/onboarding/onboarding-tutorial"
+import FacebookPixel from '@/components/FacebookPixel'
 
 type Menu = Database["public"]["Tables"]["menus"]["Row"]
 type Profile = Database["public"]["Tables"]["profiles"]["Row"]
@@ -95,6 +96,7 @@ export default function DashboardPage() {
 
   return (
     <div className="space-y-8">
+      <FacebookPixel />
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Panel de control</h1>
