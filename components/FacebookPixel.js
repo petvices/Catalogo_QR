@@ -1,11 +1,13 @@
-// components/FacebookPixel.js
+"use client"; // Añade esto al inicio
+
 import Script from 'next/script'
 import { useEffect } from 'react'
 
 const FacebookPixel = () => {
   useEffect(() => {
-    // Fuerza el envío del PageView después de cargar el componente
-    window.fbq?.('track', 'PageView')
+    if(typeof window !== 'undefined') {
+      window.fbq?.('track', 'PageView')
+    }
   }, [])
 
   return (
@@ -23,17 +25,18 @@ const FacebookPixel = () => {
               t.src=v;s=b.getElementsByTagName(e)[0];
               s.parentNode.insertBefore(t,s)}(window,document,'script',
               'https://connect.facebook.net/en_US/fbevents.js');
-              fbq('init', '883220427263702'); // Tu ID real
-              fbq('track', 'PageView'); // Envía el evento inicial
+              fbq('init', '736085119064741');
+              fbq('track', 'PageView');
           `,
         }}
       />
       <noscript>
         <img height="1" width="1" style={{ display: 'none' }} 
-          src="https://www.facebook.com/tr?id=883220427263702&ev=PageView&noscript=1"
+          src="https://www.facebook.com/tr?id=736085119064741&ev=PageView&noscript=1"
         />
       </noscript>
     </>
   )
 }
+
 export default FacebookPixel
