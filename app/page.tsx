@@ -8,9 +8,10 @@ import FacebookPixel from '@/components/FacebookPixel'
 export default function Home() {
   return (
     <div className="flex min-h-screen flex-col">
-      <FacebookPixel />
+      <header>
+        <FacebookPixel />
+      </header>
       <Navbar />
-
       <main className="flex-1">
         {/* Hero Section */}
         <section className="py-20 px-4 bg-gradient-to-b from-white to-gray-100 dark:from-gray-900 dark:to-gray-950">
