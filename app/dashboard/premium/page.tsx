@@ -7,6 +7,7 @@ import { useToast } from "@/components/ui/use-toast"
 import { useSupabase } from "@/components/supabase-provider"
 import { ArrowBigDownDash, Check, Crown, LucideArrowUpCircle } from "lucide-react"
 import type { Database } from "@/types/supabase"
+import FacebookPixel from '@/components/FacebookPixel'
 
 type Profile = Database["public"]["Tables"]["profiles"]["Row"]
 
@@ -75,6 +76,7 @@ export default function PremiumPage() {
 
   return (
     <div className="space-y-8">
+      <FacebookPixel />
       <div>
         <h1 className="text-3xl font-bold tracking-tight">Actualizar a Premium</h1>
         <p className="text-muted-foreground">Desbloquea todas las funciones y mejora la experiencia de tus clientes</p>
