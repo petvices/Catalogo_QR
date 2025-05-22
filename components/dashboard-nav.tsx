@@ -62,7 +62,7 @@ export default function DashboardNav() {
                     <span>Pedidos</span>
                   </Link>
                   <Link
-                    href={`/dashboard/menus/${menuId}/loyalty`}
+                    href={`/dashboard`}
                     className={`flex items-center py-2 px-3 rounded-lg ${
                       pathname.includes(`/dashboard`) ? "text-primary" : "text-muted-foreground"
                     }`}
@@ -130,7 +130,7 @@ export default function DashboardNav() {
             <span>Pedidos</span>
           </Link>
           <Link
-            href={`/dashboard/menus/${menuId}/loyalty`}
+            href={`/dashboard`}
             className={`text-sm font-medium transition-colors hover:text-primary flex items-center ${
               pathname.includes(`/dashboard`) ? "text-primary" : "text-muted-foreground"
             }`}
