@@ -70,7 +70,10 @@ export default function LoginPage() {
       })
 
       // Redirección asegurada
+      setTimeout(() => {
       router.push("/dashboard")
+      router.refresh()
+    }, 1000) // 
     } catch (error: any) {
       console.error("Error durante el login:", error)
 
