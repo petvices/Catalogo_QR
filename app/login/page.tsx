@@ -107,8 +107,12 @@ export default function LoginPage() {
       <div className="w-full max-w-md">
         <Card className="shadow-2xl border-0 bg-white/80 backdrop-blur-sm">
           <CardHeader className="space-y-1 text-center pb-6">
-            <div className="mx-auto w-12 h-12 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center mb-4">
-              <User className="h-6 w-6 text-white" />
+            <div className="mx-auto w-12 h-12 bg-gradient-to-r rounded-full flex items-center justify-center mb-4">
+                <img
+                  src="/logo3.png"
+                  alt="Avatar"
+                  className="w-12 h-12 object-cover"
+                />
             </div>
             <CardTitle className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
               Iniciar sesión

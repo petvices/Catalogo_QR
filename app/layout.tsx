@@ -12,7 +12,7 @@ const inter = Inter({ subsets: ["latin"] })
 export const metadata = {
   title: "Catálogo Digital - Crea tu menú digital",
   icons: {
-    icon: "/Softwans.png",
+    icon: "/logo3.png",
   },
   description: "Plataforma para crear tú catálogo digital con código QR para restaurantes",
   generator: 'Softwans.com'
