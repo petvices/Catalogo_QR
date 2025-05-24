@@ -12,7 +12,7 @@ import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { useToast } from "@/components/ui/use-toast"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
-import { AlertCircle, Eye, EyeOff, Loader2, Mail, User, Lock } from "lucide-react"
+import { AlertCircle, Eye, EyeOff, Loader2, Mail, Lock } from "lucide-react"
 
 export default function LoginPage() {
   const [identifier, setIdentifier] = useState("")
@@ -30,11 +30,9 @@ export default function LoginPage() {
     setError(null)
 
     try {
-      // Determinar si el identificador es un email o un nombre de usuario
       const isEmail = identifier.includes("@")
 
       if (isEmail) {
-        // Iniciar sesión directamente con email
         const { error: signInError } = await supabase.auth.signInWithPassword({
           email: identifier,
           password,
@@ -44,28 +42,26 @@ export default function LoginPage() {
           throw new Error(signInError.message)
         }
       } else {
-        // Si no es un email, intentamos buscar el usuario por nombre de usuario
-        // usando la API de backend que creamos específicamente para esto
         const response = await fetch("/api/auth/login-by-username", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({
-            username: identifier,
-            password,
-          }),
+          body: JSON.stringify({ username: identifier, password }),
         })
 
         const data = await response.json()
 
-        if (!response.ok) {
-          throw new Error(data.error || "Error al iniciar sesión con nombre de usuario")
-        }
-
-        if (!data.success) {
+        if (!response.ok || !data.success) {
           throw new Error(data.message || "Credenciales inválidas")
         }
+      }
+
+      // Esperar a que la sesión esté disponible
+      const { data: sessionData, error: sessionError } = await supabase.auth.getSession()
+
+      if (sessionError || !sessionData.session) {
+        throw new Error("No se pudo establecer la sesión correctamente.")
       }
 
       toast({
@@ -73,8 +69,8 @@ export default function LoginPage() {
         description: "Bienvenido de nuevo.",
       })
 
+      // Redirección asegurada
       router.push("/dashboard")
-      router.refresh()
     } catch (error: any) {
       console.error("Error durante el login:", error)
 
@@ -108,11 +104,7 @@ export default function LoginPage() {
         <Card className="shadow-2xl border-0 bg-white/80 backdrop-blur-sm">
           <CardHeader className="space-y-1 text-center pb-6">
             <div className="mx-auto w-12 h-12 bg-gradient-to-r rounded-full flex items-center justify-center mb-4">
-                <img
-                  src="/logo3.png"
-                  alt="Avatar"
-                  className="w-12 h-12 object-cover"
-                />
+              <img src="/logo3.png" alt="Avatar" className="w-12 h-12 object-cover" />
             </div>
             <CardTitle className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
               Iniciar sesión
@@ -136,7 +128,7 @@ export default function LoginPage() {
             <CardContent className="space-y-6">
               <div className="space-y-2">
                 <Label htmlFor="identifier" className="text-sm font-medium text-gray-700">
-                  Email
+                  Email o nombre de usuario
                 </Label>
                 <div className="relative">
                   <Mail className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
@@ -154,13 +146,10 @@ export default function LoginPage() {
 
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
-                  <Label htmlFor="password" className="text-sm font-medium text-gray-700" >
+                  <Label htmlFor="password" className="text-sm font-medium text-gray-700">
                     Contraseña
                   </Label>
-                  <Link
-                    href="/forgot-password"
-                    className="text-xs text-blue-600 hover:text-blue-800 font-medium hover:underline"
-                  >
+                  <Link href="/forgot-password" className="text-xs text-blue-600 hover:text-blue-800 font-medium hover:underline">
                     ¿Olvidaste tu contraseña?
                   </Link>
                 </div>
@@ -223,3 +212,6 @@ export default function LoginPage() {
     </div>
   )
 }
+
+
+//ELIMINAR
