@@ -1,5 +1,4 @@
 "use client"
-//ELIMINAR PARA UP
 
 import type React from "react"
 
