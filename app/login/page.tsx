@@ -212,6 +212,3 @@ export default function LoginPage() {
     </div>
   )
 }
-
-
-//ELIMINAR
