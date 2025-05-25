@@ -9,7 +9,6 @@ export async function POST(request: Request) {
 
   const supabase = createRouteHandlerClient({ cookies })
 
-  // Registrar al usuario
   const { data: authData, error: authError } = await supabase.auth.signUp({
     email,
     password,
