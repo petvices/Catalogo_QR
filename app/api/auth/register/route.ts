@@ -29,7 +29,7 @@ export async function POST(request: Request) {
   }
 
   if (authData.user) {
-    // Crear perfil usando service_role (esto evita las restricciones de RLS)
+    // Crear perfil usando service_role (esto evita las restricciones de RLS
     const supabaseAdmin = createRouteHandlerClient(
       {
         cookies,
