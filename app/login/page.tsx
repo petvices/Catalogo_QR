@@ -69,7 +69,7 @@ export default function LoginPage() {
         description: "Bienvenido de nuevo.",
       })
 
-      // Redirección asegurada
+      // Redirección asegurad
       setTimeout(() => {
       router.push("/dashboard")
       router.refresh()
