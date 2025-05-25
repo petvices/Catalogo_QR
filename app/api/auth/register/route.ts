@@ -17,8 +17,7 @@ export async function POST(request: Request) {
       data: {
         first_name: firstName,
         last_name: lastName,
-        name: username, // Usamos name para almacenar el username
-        username: username, // También lo guardamos como username para mayor compatibilidad
+        name: username, // Usamos name para almacenar el usernameS
         phone,
         acceptPromotions,
         referredBy: referralCode || null,
