@@ -9,7 +9,6 @@ export async function POST(request: Request) {
 
   const supabase = createRouteHandlerClient({ cookies })
 
-  // Registrar al usuario
   const { data: authData, error: authError } = await supabase.auth.signUp({
     email,
     password,
@@ -17,7 +16,7 @@ export async function POST(request: Request) {
       data: {
         first_name: firstName,
         last_name: lastName,
-        name: username, // Usamos name para almacenar el usernameS
+        name: username, 
         phone,
         acceptPromotions,
         referredBy: referralCode || null,
@@ -30,7 +29,7 @@ export async function POST(request: Request) {
   }
 
   if (authData.user) {
-    // Crear perfil usando service_role (esto evita las restricciones de RLS)
+    // Crear perfil usando service_role (esto evita las restricciones de RLS
     const supabaseAdmin = createRouteHandlerClient(
       {
         cookies,
