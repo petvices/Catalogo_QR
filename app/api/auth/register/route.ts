@@ -45,7 +45,6 @@ export async function POST(request: Request) {
       name: username, // Usamos name para almacenar el username
       first_name: firstName, // Nuevo campo para el nombre
       last_name: lastName, // Nuevo campo para el apellido
-      email, // Guardamos también el email para facilitar el login
       phone, // Número telefónico
       accept_promotions: acceptPromotions, // Preferencias de marketing
       is_premium: false,

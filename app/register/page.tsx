@@ -63,7 +63,7 @@ export default function RegisterPage() {
     setSuccess(null)
 
     try {
-      console.log("Iniciando registro con:", { email, firstName, lastName, username })
+      console.log("Iniciando registro")
 
       // Preparar los datos para el registro, incluyendo el código de referido si existe
       const registerData = {
@@ -106,7 +106,7 @@ export default function RegisterPage() {
         router.push("/login")
       }, 15000)
     } catch (error: any) {
-      console.error("Error durante el registro:", error)
+      console.error("Error durante el registro: *****")
 
       // Mensajes de error más descriptivos
       let errorMessage = "Ha ocurrido un error al crear la cuenta."
@@ -117,7 +117,7 @@ export default function RegisterPage() {
         } else if (error.message.includes("password")) {
           errorMessage = "La contraseña no cumple con los requisitos mínimos. Debe tener al menos 6 caracteres."
         } else if (error.message.includes("email")) {
-          errorMessage = "El formato del correo electrónico no es válido."
+          errorMessage = "Ha ocurrio un error, por favor espere y vuelve a intentarlo más tarde"
         } else {
           errorMessage = error.message
         }
