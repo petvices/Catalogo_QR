@@ -1,4 +1,4 @@
-// components/FacebookPixel.js
+
 import Script from 'next/script'
 
 const FacebookPixel = () => {
