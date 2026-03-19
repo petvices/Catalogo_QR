@@ -1,5 +1,5 @@
 <div align="center">
-
+![Header](public/logo_git.png)
 ![v1.0.0](https://img.shields.io/badge/Version-0.0.7-blue)
 ![Next.js](https://img.shields.io/badge/Next.js-14-black)
 ![Typescript](https://img.shields.io/badge/TypeScript-4.9+-blue)
