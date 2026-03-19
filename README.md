@@ -1,5 +1,5 @@
 <div align="center">
-<img src="public/logo_git.png" width="420" style="border-radius: 50px;" />
+<img src="public/logo_git.png" width="450" style="border-radius: 50px;" />
 
 ![v1.0.0](https://img.shields.io/badge/Version-0.0.7-blue)
 ![Next.js](https://img.shields.io/badge/Next.js-14-black)
