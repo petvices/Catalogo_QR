@@ -1,14 +1,15 @@
 <div align="center">
-https://img.shields.io/badge/version-1.0.0-blue
-https://img.shields.io/badge/Next.js-14-black
-https://img.shields.io/badge/TypeScript-4.9+-blue
-https://img.shields.io/badge/Supabase-Database-green
-https://img.shields.io/badge/status-discontinued-red
+
+![v1.0.0](https://img.shields.io/badge/Version-0.0.7-blue)
+![Next.js](https://img.shields.io/badge/Next.js-14-black)
+![Typescript](https://img.shields.io/badge/TypeScript-4.9+-blue)
+![Supabase](https://img.shields.io/badge/Supabase-Database-green)
+![discontinued](https://img.shields.io/badge/status-discontinued-red)
 
 🚀 Tu catálogo inteligente, accesible con un solo escaneo
 Solución digital para restaurantes, emprendimientos y negocios que buscan automatizar sus ventas
 
-[🔗 Ver Demo]() | [📖 Documentación]() | [🐛 Reportar Error]()
+[🔗 Ver Demo](https://qr-eta-gray.vercel.app/) | [📖 Documentación](https://github.com/petvices/Catalogo_QR) | [🐛 Reportar Error]()
 
 </div>
 
